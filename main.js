@@ -5,6 +5,7 @@
 
 var CONTACT_TEMPLATE = {name: "", email: "", description: "", errors: null}
 
+var apiKey = "B9URpSshbpOVhGlfXCZ4cReTixCh53W7"
 
 
 /*
@@ -28,14 +29,29 @@ function setState(changes) {
   );
 }
 
+
+
+let ccc = $.ajax( { url: "https://api.mlab.com/api/1/databases/piam_test/collections/contacts?apiKey="+apiKey} )
+    .done(function(data) {
+
 // Set initial data
 setState({
-  contacts: [
-    {key: 1, name: "James K Nelson", email: "james@jamesknelson.com", description: "Front-end Unicorn"},
-    {key: 2, name: "Jim", email: "jim@example.com"},
-  ],
+  contacts: data.map(function(o) {
+     return {
+       id: o._id.$oid,
+       name: o.name,
+       email: o.email,
+       description: o.description
+     };
+  }),
   newContact: Object.assign({}, CONTACT_TEMPLATE),
 });
+
+     })
+
+  
+
+
 
 
 
