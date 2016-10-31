@@ -9,10 +9,8 @@ var ContactItem = React.createClass({
 
   onClick() {
  
-    console.log("I should delete:" + this.props.id)
-
-    //TODO: hook this up to the API call to delete.
-    $.ajax( { url: "https://api.mlab.com/api/1/databases/piam_test/collections/contacts/"+this.props.id+"?apiKey="+apiKey,
+    //API call to delete.
+    $.ajax( { url: "https://api.mlab.com/api/1/databases/"+myDB+"/collections/"+myCollection+"/"+this.props.id+"?apiKey="+apiKey,
       type: "DELETE",
       async: true,
       timeout: 300000,
@@ -20,10 +18,11 @@ var ContactItem = React.createClass({
       error: function (xhr, status, err) { } } )
 
       .done(function(data) {
-        // TODO: add a DOM element to indicate that the record was added.
+        // TODO: add a DOM element to indicate that the record was removed.
         $( this ).addClass( "done" )
         if ( console && console.log ) {
            console.log( "Record was deleted: " + data);
+           
         }
       })
     

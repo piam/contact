@@ -23,34 +23,32 @@ var ContactForm = React.createClass({
     e.preventDefault()
     this.props.onSubmit()
 
+
     let name = this.refs.name
     let email = this.refs.email
     let description = this.refs.description
-
-
-     
-
-
-
     let contact = {
       name: this.refs.name.value,
       email: this.refs.email.value,
       description: this.refs.description.value
     }
 
-    // send the command to the server to create it.
-    $.ajax( { url: "https://api.mlab.com/api/1/databases/piam_test/collections/contacts?apiKey="+apiKey,
-      data: JSON.stringify( [ contact ] ),
-      type: "POST",
-      contentType: "application/json" } )
-
-      .done(function(data) {
-        // TODO: add a DOM element to indicate that the record was added.
-        $( this ).addClass( "done" )
-        if ( console && console.log ) {
-           console.log( "Record was saved: " + data);
-        }
-      })
+    // TODO: don't make the API call if there are errors
+    
+      // API call to add a contact
+      $.ajax( { url: "https://api.mlab.com/api/1/databases/"+myDB+"/collections/"+myCollection+"?apiKey="+apiKey,
+        data: JSON.stringify( [ contact ] ),
+        type: "POST",
+        contentType: "application/json" } )
+/*
+        .done(function(data) {
+          // TODO: add a DOM element to indicate that the record was added.
+          $( this ).addClass( "done" )
+          if ( console && console.log ) {
+             console.log( "Record was saved: " + data);
+          }
+        })
+*/    
   },
 
   render: function() {
