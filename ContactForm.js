@@ -10,6 +10,7 @@ var ContactForm = React.createClass({
   },
 
   onEmailInput: function(e) {
+    
     this.props.onChange(Object.assign({}, this.props.value, {email: e.target.value}))
   },
 
