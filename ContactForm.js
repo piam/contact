@@ -40,7 +40,7 @@ var ContactForm = React.createClass({
         data: JSON.stringify( [ contact ] ),
         type: "POST",
         contentType: "application/json" } )
-/*
+
         .done(function(data) {
           // TODO: add a DOM element to indicate that the record was added.
           $( this ).addClass( "done" )
@@ -48,7 +48,7 @@ var ContactForm = React.createClass({
              console.log( "Record was saved: " + data);
           }
         })
-*/    
+    
   },
 
   render: function() {
