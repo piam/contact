@@ -1,3 +1,5 @@
-# Learn Raw React: Ridiculously Simple Forms
+# Ridiculously Simple React Forms
 
-This repository holds the solution for the final exercise of [Learn Raw React, part 2](http://jamesknelson.com/learn-raw-react-ridiculously-simple-forms/)
+We started with the solution for the final exercise of [Learn Raw React, part 2](http://jamesknelson.com/learn-raw-react-ridiculously-simple-forms/) and modified to work with mLab.
+
+Just clone and open index.html.
