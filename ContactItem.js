@@ -3,8 +3,7 @@ var ContactItem = React.createClass({
         id: React.PropTypes.string,
         name: React.PropTypes.string.isRequired,
         email: React.PropTypes.string.isRequired,
-        description: React.PropTypes.string,
-        visible: React.PropTypes.boolean
+        description: React.PropTypes.string
     },
 
     onClick() {
@@ -12,17 +11,23 @@ var ContactItem = React.createClass({
         // must be "DELETE".
         $.ajax({
             url: "https://api.mlab.com/api/1/databases/" + myDB + "/collections/" + myCollection + "/" + this.props.id + "?apiKey=" + apiKey,
-            type: "DELETE"
-        })
-        .done(function(data) {
-          // TODO: Update the UI to remove the successfully deleted Contact
-        })
+            type: "DELETE",
+            timeout: 300000, // 5 minutes
+
+            success: function(data) {
+                // TODO: remove the contact. We'll do this in a follow-up post.
+            },
+            
+            error: function(xhr, status, err) {
+                // TODO: surface the error to the user.
+            }
+        });
     },
 
     render: function() {
         return (
             React.createElement('div', {
-                    className: 'ContactItem ' +  this.props.visible
+                    className: 'ContactItem'
                 },
                 // Add a button with an onClick callback so we can call the
                 // mLab API to remove the appropriate document.
@@ -41,6 +46,6 @@ var ContactItem = React.createClass({
                     className: 'ContactItem-description'
                 }, this.props.description)
             )
-        )
+        );
     },
 });

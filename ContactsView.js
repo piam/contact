@@ -26,6 +26,6 @@ var ContactsView = React.createClass({
                     onSubmit: this.props.onNewContactSubmit,
                 })
             )
-        )
+        );
     },
 });

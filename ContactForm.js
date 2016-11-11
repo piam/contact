@@ -5,61 +5,31 @@ var ContactForm = React.createClass({
         onSubmit: React.PropTypes.func.isRequired,
     },
 
-    // Update our properties from our contact form
     onNameInput: function(e) {
         this.props.onChange(Object.assign({}, this.props.value, {
             name: e.target.value
-        }))
+        }));
     },
 
     onEmailInput: function(e) {
-
         this.props.onChange(Object.assign({}, this.props.value, {
             email: e.target.value
-        }))
+        }));
     },
 
     onDescriptionInput: function(e) {
         this.props.onChange(Object.assign({}, this.props.value, {
             description: e.target.value
-        }))
+        }));
     },
 
     onSubmit: function(e) {
-        e.preventDefault()
-        this.props.onSubmit()
-
-        let name = this.refs.name
-        let email = this.refs.email
-        let description = this.refs.description
-        let contact = {
-            name: this.refs.name.value,
-            email: this.refs.email.value,
-            description: this.refs.description.value
-        }
-
-        // TODO: don't make the API call if there are errors
-
-        // Call the api endpoint and specify the collection and apiKey.
-        // note the contact object we are passing as data
-        $.ajax({
-            url: "https://api.mlab.com/api/1/databases/" + myDB + "/collections/" + myCollection + "?apiKey=" + apiKey,
-            data: JSON.stringify([contact]),
-            type: "POST",
-            contentType: "application/json"
-        })
-
-        .done(function(data) {
-            // TODO: add a DOM element to indicate that the record was added.
-            $(this).addClass("done")
-
-        })
-
+        e.preventDefault();
+        this.props.onSubmit();
     },
 
     render: function() {
         var errors = this.props.value.errors || {}
-
         return (
             React.createElement('form', {
                     onSubmit: this.onSubmit,
@@ -93,6 +63,6 @@ var ContactForm = React.createClass({
                     type: 'submit'
                 }, "Add Contact")
             )
-        )
+        );
     },
 });
