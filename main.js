@@ -43,7 +43,7 @@ $.ajax({
         setState({
             contacts: data.map(function(o) {
                 return {
-                    id: o._id.$oid,
+                    id: o.email,
                     name: o.name,
                     email: o.email,
                     description: o.description
@@ -74,7 +74,7 @@ function submitNewContact() {
 
     var contact = Object.assign({}, state.newContact, {
         key: state.contacts.length + 1,
-        id: null,
+        id: state.newContact.email,
         errors: {}
     })
 
@@ -91,36 +91,36 @@ function submitNewContact() {
         return;
     }
 
-    // TODO: don't make the API call if there are errors
-    // Call the api endpoint and specify the collection and apiKey.
-    // note the contact object we are passing as data
-    let contact2 = {
+    // Insert the contact document via the API. Note that we override the _id
+    // field with the email address. This is necessary as the Data API does not
+    // return the _id for documents inserted into the database and we need to
+    // provide the _id field to the other elements in the App.
+    let contactDocument = {
         name: contact.name,
         email: contact.email,
-        description: contact.description
+        description: contact.description,
+        _id: contact.email
     };
     $.ajax({
         url: "https://api.mlab.com/api/1/databases/" + myDB + "/collections/" + myCollection + "?apiKey=" + apiKey,
-        data: JSON.stringify([contact2]),
+        data: JSON.stringify([contactDocument]),
         type: "POST",
         contentType: "application/json",
 
         success: function(data) {
             // TODO: Add a visual indicator that the Contact was added such as
             // a fade effect.
-
-            console.log(data);
         },
         error: function(xhr, status, err) {
             // TODO: surface the error to the user.
         }
     });
 
-    contact.id = 'fuck you';
-
     setState(
         Object.keys(contact.errors).length === 0 ? {
             newContact: Object.assign({}, CONTACT_TEMPLATE),
+            // TOOO: if the contact already exists, we can simply update it with
+            // the new contact information.
             contacts: state.contacts.slice(0).concat(contact),
         } : {
             newContact: contact

@@ -1,6 +1,6 @@
 var ContactItem = React.createClass({
     propTypes: {
-        id: React.PropTypes.string,
+        id: React.PropTypes.string.isRequired,
         name: React.PropTypes.string.isRequired,
         email: React.PropTypes.string.isRequired,
         description: React.PropTypes.string
@@ -10,14 +10,14 @@ var ContactItem = React.createClass({
         // Call the API and specify the collection and apiKey. Note the HTTP verb
         // must be "DELETE".
         $.ajax({
-            url: "https://api.mlab.com/api/1/databases/" + myDB + "/collections/" + myCollection + "/" + this.props.id + "?apiKey=" + apiKey,
+            url: "https://api.mlab.com/api/1/databases/" + myDB + "/collections/" + myCollection + "/" + encodeURIComponent(this.props.id) + "?apiKey=" + apiKey,
             type: "DELETE",
             timeout: 300000, // 5 minutes
 
             success: function(data) {
                 // TODO: remove the contact. We'll do this in a follow-up post.
             },
-            
+
             error: function(xhr, status, err) {
                 // TODO: surface the error to the user.
             }
