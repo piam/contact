@@ -4,40 +4,28 @@ var ContactItem = React.createClass({
         name: React.PropTypes.string.isRequired,
         email: React.PropTypes.string.isRequired,
         description: React.PropTypes.string,
+        visible: React.PropTypes.boolean
     },
-
 
     onClick() {
-
-        //API call to delete.
+        // Call the API and specify the collection and apiKey. Note the HTTP verb
+        // must be "DELETE".
         $.ajax({
             url: "https://api.mlab.com/api/1/databases/" + myDB + "/collections/" + myCollection + "/" + this.props.id + "?apiKey=" + apiKey,
-            type: "DELETE",
-            async: true,
-            timeout: 300000,
-            success: function(data) {},
-            error: function(xhr, status, err) {}
+            type: "DELETE"
         })
-
         .done(function(data) {
-            // TODO: add a DOM element to indicate that the record was removed.
-            $(this).addClass("done")
-            if (console && console.log) {
-                console.log("Record was deleted: " + data);
-
-            }
+          // TODO: Update the UI to remove the successfully deleted Contact
         })
-
-
     },
-
 
     render: function() {
         return (
             React.createElement('div', {
-                    className: 'ContactItem'
+                    className: 'ContactItem ' +  this.props.visible
                 },
-
+                // Add a button with an onClick callback so we can call the
+                // mLab API to remove the appropriate document.
                 React.createElement('button', {
                     onClick: this.onClick,
                     className: 'button',

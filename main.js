@@ -2,7 +2,6 @@
  * Constants
  */
 
-
 var CONTACT_TEMPLATE = {
     name: "",
     email: "",
@@ -10,6 +9,7 @@ var CONTACT_TEMPLATE = {
     errors: null
 }
 
+// In a production application we would hide the apiKey serverside
 var apiKey = "B9URpSshbpOVhGlfXCZ4cReTixCh53W7"
 var myDB = "piam_test"
 var myCollection = "contacts"
@@ -34,14 +34,16 @@ function setState(changes) {
     );
 }
 
-
-
-let ccc = $.ajax({
+// Load the initial state of the app by populating it with all contacts.
+$.ajax({
         url: "https://api.mlab.com/api/1/databases/" + myDB + "/collections/" + myCollection + "?apiKey=" + apiKey
     })
     .done(function(data) {
 
-        // Set initial data
+        // Load all the contacts in the database. Note, Mongo document IDs are native ObjectId instances and are returned as
+        // the field _id. We need to extract the $oid property to use as the identifier for each contact so that we can
+        // refer to it for deleting.
+        // For more info, see: https://docs.mongodb.com/v3.2/reference/method/ObjectId/
         setState({
             contacts: data.map(function(o) {
                 return {
@@ -53,26 +55,17 @@ let ccc = $.ajax({
             }),
             newContact: Object.assign({}, CONTACT_TEMPLATE),
         });
-
     })
-
-
-
-
-
-
 
 /*
  * Actions
  */
-
 
 function updateNewContact(contact) {
     setState({
         newContact: contact
     });
 }
-
 
 function submitNewContact() {
     var contact = Object.assign({}, state.newContact, {

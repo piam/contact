@@ -5,7 +5,7 @@ var ContactForm = React.createClass({
         onSubmit: React.PropTypes.func.isRequired,
     },
 
-
+    // Update our properties from our contact form
     onNameInput: function(e) {
         this.props.onChange(Object.assign({}, this.props.value, {
             name: e.target.value
@@ -29,7 +29,6 @@ var ContactForm = React.createClass({
         e.preventDefault()
         this.props.onSubmit()
 
-
         let name = this.refs.name
         let email = this.refs.email
         let description = this.refs.description
@@ -41,7 +40,8 @@ var ContactForm = React.createClass({
 
         // TODO: don't make the API call if there are errors
 
-        // API call to add a contact
+        // Call the api endpoint and specify the collection and apiKey.
+        // note the contact object we are passing as data
         $.ajax({
             url: "https://api.mlab.com/api/1/databases/" + myDB + "/collections/" + myCollection + "?apiKey=" + apiKey,
             data: JSON.stringify([contact]),
@@ -52,9 +52,7 @@ var ContactForm = React.createClass({
         .done(function(data) {
             // TODO: add a DOM element to indicate that the record was added.
             $(this).addClass("done")
-            if (console && console.log) {
-                console.log("Record was saved: " + data);
-            }
+
         })
 
     },
